@@ -81,7 +81,7 @@
   }
 
   .menuItem {
-    @apply !m-1.5 flex !cursor-pointer items-center gap-x-2 !rounded-lg !px-4 !py-3.5 font-medium dark:hover:bg-[#3C3C3C];
+    @apply !m-1.5 flex !cursor-pointer items-center gap-x-2 !rounded-lg !px-4 !py-3.5 font-medium dark:hover:bg-[#c3c3c3] dark:hover:text-slate-900;
   }
 
   .postOption {
