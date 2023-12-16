@@ -1,7 +1,7 @@
 import bcryptjs from 'bcryptjs'
 import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import { PrismaAdapter } from '@auth/prisma-adapter'
 import { db } from './db'
 
 export const authOptions: NextAuthOptions = {
@@ -11,32 +11,24 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: 'credentials',
       credentials: {
-        // email: { label: 'email', type: 'text' },
+        email: { label: 'email', type: 'text' },
         username: { label: 'username', type: 'text' },
         password: { label: 'password', type: 'password' },
       },
       async authorize(credentials) {
-        // if (!credentials?.email || !credentials?.password) {
-        //   // throw new Error('Invalid credentials')
-        //   return null
-        // }
-        // const existingUser = await db.user.findUnique({
-        //   where: {
-        //     email: credentials?.email,
-        //   },
-        // })
-        if (!credentials?.username || !credentials?.password) {
-          // throw new Error('Invalid credentials')
+        if (!credentials?.email || !credentials?.password) {
           return null
         }
+
         const existingUser = await db.user.findUnique({
           where: {
-            username: credentials?.username,
+            email: credentials?.email,
           },
         })
+
         if (!existingUser || !existingUser?.hashedPassword) {
-          // throw new Error('Invalid credentials')
-          return null
+          throw new Error('No user found')
+          // return null
         }
         const isCorrectPassword = await bcryptjs.compare(
           credentials.password,
@@ -60,29 +52,22 @@ export const authOptions: NextAuthOptions = {
   },
 
   pages: {
-    signIn: '/sign-n',
+    signIn: '/sign-in',
   },
 
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        return {
-          ...token,
-          username: user.name,
-        }
-      }
-      return token
-    },
     async session({ session, token }) {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          username: token.username,
-        },
+      if (token) {
+        session.user.id = token.id
+        session.user.name = token.name
+        session.user.email = token.email
+        session.user.image = token.picture
+        session.user.username = token.username
       }
+      return session
     },
   },
+
   debug: process.env.NODE_ENV === 'development',
 
   secret: process.env.NEXTAUTH_SECRET,

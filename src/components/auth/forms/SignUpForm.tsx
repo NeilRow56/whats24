@@ -76,7 +76,7 @@ export const SignUpForm = () => {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md ">
         <div
           className="
-        bg-white
+        bg-slate-600
           px-4
           py-8
           shadow
@@ -84,10 +84,10 @@ export const SignUpForm = () => {
           sm:px-10
         "
         >
-          <div className="mb-2 text-2xl font-bold text-blue-800">
+          <div className="mb-2 text-2xl font-bold text-slate-200">
             <h2>Register</h2>
           </div>
-          <div className="mb-2  text-gray-400 ">
+          <div className="mb-2  text-slate-400 ">
             <h3>Sign up to create an account</h3>
           </div>
           <Form {...form}>
@@ -98,7 +98,7 @@ export const SignUpForm = () => {
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold text-blue-800">
+                      <FormLabel className="font-semibold text-slate-200">
                         Username
                       </FormLabel>
                       <FormControl>
@@ -117,7 +117,7 @@ export const SignUpForm = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold text-blue-800">
+                      <FormLabel className="font-semibold text-slate-200">
                         Email
                       </FormLabel>
                       <FormControl>
@@ -134,7 +134,7 @@ export const SignUpForm = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold text-blue-800">
+                      <FormLabel className="font-semibold text-slate-200">
                         Password
                       </FormLabel>
                       <FormControl>
@@ -156,7 +156,7 @@ export const SignUpForm = () => {
                   name="confirmPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold text-blue-800">
+                      <FormLabel className="font-semibold text-slate-200">
                         Confirm Password
                       </FormLabel>
                       <FormControl>
@@ -177,7 +177,7 @@ export const SignUpForm = () => {
                   className="w-full bg-blue-800 hover:bg-blue-500"
                   type="submit"
                 >
-                  Register
+                  <p className="text-slate-200">Register</p>
                 </Button>
               </div>
             </form>
@@ -196,9 +196,12 @@ export const SignUpForm = () => {
           "
             >
               <div className="mt-2 text-center text-sm text-gray-600">
-                If you already have an account, please&nbsp;
-                <Link className="text-blue-500 hover:underline" href="/sign-in">
-                  Sign in
+                <span className="text-slate-200">
+                  {' '}
+                  If you already have an account, please&nbsp;
+                </span>
+                <Link className="text-blue-300 hover:underline" href="/sign-in">
+                  Signin
                 </Link>
               </div>
             </div>
