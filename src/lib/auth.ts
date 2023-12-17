@@ -3,6 +3,12 @@ import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { db } from './db'
+import NextAuth, { getServerSession } from 'next-auth/next'
+import {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from 'next'
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
@@ -66,9 +72,52 @@ export const authOptions: NextAuthOptions = {
       }
       return session
     },
+
+    async jwt({ token, user }) {
+      const prismaUser = await db.user.findFirst({
+        where: {
+          email: token.email,
+        },
+      })
+
+      if (!prismaUser) {
+        token.id = user.id
+        return token
+      }
+      if (!prismaUser.username) {
+        await db.user.update({
+          where: {
+            id: prismaUser.id,
+          },
+          data: {
+            // Elon Musk => elonmusk
+            username: prismaUser.name?.split(' ').join('').toLowerCase(),
+          },
+        })
+      }
+      return {
+        id: prismaUser.id,
+        name: prismaUser.name,
+        email: prismaUser.email,
+        username: prismaUser.username,
+        picture: prismaUser.image,
+      }
+    },
   },
 
   debug: process.env.NODE_ENV === 'development',
 
   secret: process.env.NEXTAUTH_SECRET,
+}
+
+export default NextAuth(authOptions)
+
+// Use it in server contexts
+export function auth(
+  ...args:
+    | [GetServerSidePropsContext['req'], GetServerSidePropsContext['res']]
+    | [NextApiRequest, NextApiResponse]
+    | []
+) {
+  return getServerSession(...args, authOptions)
 }

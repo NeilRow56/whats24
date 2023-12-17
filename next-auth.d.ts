@@ -5,6 +5,7 @@ declare module 'next-auth/jwt' {
   interface JWT {
     id: string
     username?: string | null
+    email?: string | null
   }
 }
 

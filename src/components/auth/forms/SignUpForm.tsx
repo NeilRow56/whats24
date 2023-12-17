@@ -73,12 +73,13 @@ export const SignUpForm = () => {
 
   return (
     <>
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md ">
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div
           className="
-        bg-slate-600
+          bg-slate-600
           px-4
           py-8
+          
           shadow
           sm:rounded-lg
           sm:px-10
@@ -139,6 +140,7 @@ export const SignUpForm = () => {
                       </FormLabel>
                       <FormControl>
                         <Input
+                          className=" "
                           type="password"
                           placeholder="Enter your password"
                           {...field}
