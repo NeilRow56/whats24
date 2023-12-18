@@ -3,6 +3,7 @@ import { withAuth } from 'next-auth/middleware'
 export default withAuth({
   callbacks: {
     authorized({ req, token }) {
+      // !! converts to a bollean - If token exists => true
       const isLoggedIn = !!token
       const isOnDashboard = req.nextUrl.pathname.startsWith('/dashboard')
       if (isOnDashboard) {

@@ -24,6 +24,7 @@ import { Switch } from '../ui/switch'
 import { useState, useRef, useEffect } from 'react'
 
 import { useTheme } from 'next-themes'
+import { signOut } from 'next-auth/react'
 
 function MoreDropdown() {
   const [showModeToggle, setShowModeToggle] = useState(false)
@@ -93,7 +94,7 @@ function MoreDropdown() {
               <p>Switch appearance</p>
             </DropdownMenuItem>
             <DropdownMenuSeparator className="bg-gray-200" />
-            <DropdownMenuItem className="menuItem" onClick={() => {}}>
+            <DropdownMenuItem className="menuItem" onClick={() => signOut()}>
               <LogOut size={20} />
               <p>Log out</p>
             </DropdownMenuItem>
